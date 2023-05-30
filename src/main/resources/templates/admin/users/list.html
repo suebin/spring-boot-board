@@ -6,8 +6,7 @@
     <link rel="stylesheet" href="/style.css"/>
 </head>
 <body>
-<button type="button" onclick="location.href=location.pathname + '?locale=ko'" th:text="#{Korean}"></button>
-<button type="button" onclick="location.href=location.pathname + '?locale=en' " th:text="#{English}"></button>
+<header th:include="header/header::header"></header>
 <h1 th:text="#{UserList}"></h1>
 <div>
     <a href="/admin/users/register" th:text="#{Add}"></a>

@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
@@ -16,38 +15,27 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @NoArgsConstructor
 public class Post {
-    @EmbeddedId
-    private Pk pk;
-
+    @Id
+    @Column(name = "post_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String title;
     private String content;
+    @Column(name = "writer")
+    private String writerUserId;
     @Column(name = "write_time")
     private LocalDateTime writeTime;
     @Column(name = "view_count")
     private int viewCount;
 
-    @NoArgsConstructor
-    @EqualsAndHashCode
-    @Embeddable
-    @Getter
-    @Setter
-    public static class Pk implements Serializable {
-        @Column(name = "post_id")
-        private Long id;
-
-        @Column(name = "writer")
-        private String writerUserId;
-    }
-
-    @MapsId("writerUserId")
     @ManyToOne
-    @JoinColumn(name = "writer")
+    @JoinColumn(name = "writer", insertable=false, updatable = false)
     private User user;
 
     public Post(String title, String content, String writerUserId) {
         this.title = title;
         this.content = content;
-        this.pk.writerUserId = writerUserId;
+        this.writerUserId = writerUserId;
         this.writeTime = LocalDateTime.now();
         viewCount = 0;
     }

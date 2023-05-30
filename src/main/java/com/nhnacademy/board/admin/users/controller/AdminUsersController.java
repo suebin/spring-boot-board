@@ -17,6 +17,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/admin/users")
+@SessionAttributes("user")
 @Slf4j
 public class AdminUsersController {
     private final UserService userService;
@@ -86,7 +87,7 @@ public class AdminUsersController {
         return "redirect:/admin/users/";
     }
 
-    @DeleteMapping(value="/")
+    @PostMapping(value="/delete")
     public String deleteStudent(String id){
         userService.delete(id);
         return "redirect:/admin/users/";

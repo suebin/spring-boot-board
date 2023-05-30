@@ -1,16 +1,11 @@
 package com.nhnacademy.board.config;
 
-import org.aspectj.bridge.Message;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.*;
@@ -23,7 +18,6 @@ import java.util.Locale;
 @Configuration
 @ComponentScan(basePackages = {"com.nhnacademy.board.**.controller"})
 public class WebConfig implements WebMvcConfigurer, MessageSourceAware {
-
     private MessageSource messageSource;
     @Override
     public void setMessageSource(MessageSource messageSource) {
@@ -58,11 +52,6 @@ public class WebConfig implements WebMvcConfigurer, MessageSourceAware {
     public void addInterceptors(InterceptorRegistry registry) {
         WebMvcConfigurer.super.addInterceptors(registry);
         registry.addInterceptor(localeChangeInterceptor());
-    }
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addRedirectViewController("/favicon.ico","/resources/favicon.ico");
     }
 
     @Bean

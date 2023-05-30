@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="#{ViewUser}"></title>
-    <link rel="stylesheet" href="static/style.css" />
+    <link rel="stylesheet" href="/style.css" />
     <script type="text/javascript">
         window.addEventListener('DOMContentLoaded',function(){
            'use strict';
@@ -51,7 +51,7 @@
         <button id="btn-delete" th:text="#{Delete}"></button>
     </div>
 
-    <form method="post" action="/admin/users/" id="deleteForm">
+    <form method="post" action="/admin/users/delete" id="deleteForm">
         <input type="hidden" name="_method" value="delete" />
         <input type="hidden" name="id" th:value="${userRequest.id}" />
     </form>

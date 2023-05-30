@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="#{ViewPost}"></title>
-    <link rel="stylesheet" href="static/style.css"/>
+    <link rel="stylesheet" href="/style.css"/>
     <script type="text/javascript">
         window.addEventListener('DOMContentLoaded', function () {
             'use strict';
@@ -51,7 +51,7 @@
     </tbody>
 </table>
 <div>
-    <a th:href="@{./list(page=${page}, size=${size})}" th:text="#{List}"></a>
+    <a th:href="@{./(page=${page}, size=${size})}" th:text="#{List}"></a>
     <p th:if="${user.id} == ${postRequest.writerUserId}">
         <a th:href="@{./modify(page=${page}, size=${size}, id=${postRequest.id})}" th:text="#{Edit}"></a>
         <button id="btn-delete" th:text="#{Delete}"></button>
@@ -59,7 +59,7 @@
 
 </div>
 
-<form method="post" action="/board/" id="deleteForm">
+<form method="post" action="/board/delete" id="deleteForm">
     <input type="hidden" name="_method" value="delete"/>
     <input type="hidden" name="id" th:value="${postRequest.id}"/>
 </form>

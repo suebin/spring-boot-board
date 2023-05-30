@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +14,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @SessionAttributes("user")
@@ -25,9 +23,9 @@ import java.util.List;
 public class BoardController {
     private final BoardService boardService;
 
-    @GetMapping(value = {"/list", "/", ""})
+    @GetMapping(value = {"/", ""})
     public String posts(Model model,
-                        @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+                        @PageableDefault(size = 10) Pageable pageable) {
         Page<Post> postPage = boardService.getPostList(pageable);
         model.addAttribute("postPage", postPage);
 
@@ -40,8 +38,8 @@ public class BoardController {
                         @RequestParam(name = "size", defaultValue = "10") int size,
                         String id) {
         Post post = boardService.getPost(Long.valueOf(id));
-        PostRequest postRequest = new PostRequest(post.getPk().getId(), post.getTitle(), post.getContent()
-                , post.getPk().getWriterUserId(), post.getWriteTime(), post.getViewCount());
+        PostRequest postRequest = new PostRequest(post.getId(), post.getTitle(), post.getContent()
+                , post.getWriterUserId(), post.getWriteTime(), post.getViewCount());
         model.addAttribute("postRequest", postRequest);
         model.addAttribute("page", page);
         model.addAttribute("size", size);
@@ -54,10 +52,10 @@ public class BoardController {
                          @RequestParam(name = "size", defaultValue = "10")int size ,
                          String id) {
         Post post = boardService.getPost(Long.valueOf(id));
-        PostRequest postRequest = new PostRequest(post.getPk().getId(), post.getTitle(), post.getContent()
-                , post.getPk().getWriterUserId(), post.getWriteTime(), post.getViewCount());
+        PostRequest postRequest = new PostRequest(post.getId(), post.getTitle(), post.getContent()
+                , post.getWriterUserId(), post.getWriteTime(), post.getViewCount());
         model.addAttribute("postRequest", postRequest);
-        model.addAttribute("action", "/com/nhnacademy/board/modify");
+        model.addAttribute("action", "/board/modify");
         model.addAttribute("page", page);
         model.addAttribute("size", size);
         return "post/modifyForm";
@@ -76,7 +74,7 @@ public class BoardController {
     @GetMapping("/register")
     public String register(Model model){
         model.addAttribute("postRequest", new PostRequest());
-        model.addAttribute("action", "/com/nhnacademy/board/register");
+        model.addAttribute("action", "/board/register");
         return "post/registerForm";
     }
 
@@ -90,7 +88,7 @@ public class BoardController {
         return "redirect:/board/";
     }
 
-    @DeleteMapping(value="/")
+    @PostMapping(value="/delete")
     public String deleteStudent(Long id){
         boardService.delete(id);
         return "redirect:/board/";

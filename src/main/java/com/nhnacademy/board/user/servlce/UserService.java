@@ -81,6 +81,7 @@ public class UserService {
         }
 
         user.update(userRequest.getPassword(),userRequest.getName(),userRequest.getRole());
+        userRepository.save(user);
     }
 
     public void delete(String id){

@@ -28,7 +28,7 @@ public class LoginController {
         this.loginService = loginService;
     }
 
-    @GetMapping("/login")
+    @GetMapping(value = {"/login", ""})
     public String loginForm(Model model){
         model.addAttribute("loginRequest", new LoginRequest());
 
@@ -50,7 +50,7 @@ public class LoginController {
             if(user.getRole().equals(Role.ADMIN)) {
                 return "redirect:/admin/users/";
             }
-            return "redirect:/board/list/";
+            return "redirect:/board/";
         }
 
         redirectAttributes.addFlashAttribute("message", "아이디 또는 비밀번호를 확인해 주세요!" );

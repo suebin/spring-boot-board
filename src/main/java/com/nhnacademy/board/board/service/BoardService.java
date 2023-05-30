@@ -6,7 +6,6 @@ import com.nhnacademy.board.exception.PostNotFoundException;
 import com.nhnacademy.board.repository.BoardRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +31,7 @@ public class BoardService {
     public void update(PostRequest postRequest){
         Post post = boardRepository.findById(postRequest.getId()).orElseThrow(() -> new PostNotFoundException());
         post.update(postRequest.getTitle(), postRequest.getContent());
+        boardRepository.save(post);
     }
 
     public void delete(Long id){
