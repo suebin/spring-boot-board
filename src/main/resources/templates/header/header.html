@@ -1,0 +1,11 @@
+﻿<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="header">
+    <button type="button" onclick="location.href=location.pathname + '?locale=ko'" th:text="#{Korean}"></button>
+    <button type="button" onclick="location.href=location.pathname + '?locale=en' " th:text="#{English}"></button>
+    <p><span th:text="#{ID}"></span> : <span th:text="${user.id}"></span></p>
+    <p><span th:text="#{Name}"></span> : <span th:text="${user.name}"></span></p>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" th:value="#{Logout}">
+    </form>
+</div>

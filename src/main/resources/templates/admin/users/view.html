@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{ViewUser}"></title>
+    <link rel="stylesheet" href="static/style.css" />
+    <script type="text/javascript">
+        window.addEventListener('DOMContentLoaded',function(){
+           'use strict';
+           const btnDelete = document.getElementById("btn-delete");
+
+           btnDelete.addEventListener('click',function (){
+               const ans = confirm("삭제하시겠습니까?");
+               if(ans){
+                   const deleteForm = document.getElementById("deleteForm");
+                   deleteForm.submit();
+               }
+           });
+        });
+    </script>
+</head>
+<body>
+<h1 th:text="#{ViewUser}"></h1>
+    <table>
+        <caption></caption>
+        <colgroup>
+            <col style="width:150px;" />
+            <col style="width:300px;" />
+        </colgroup>
+        <tbody>
+            <tr>
+                <th th:text="#{ID}"></th>
+                <td th:text="${userRequest.id}"></td>
+            </tr>
+            <tr>
+                <th th:text="#{Name}"></th>
+                <td th:text="${userRequest.name}" ></td>
+            </tr>
+            <tr>
+                <th th:text="#{Profile}"></th>
+                <td>
+                    <p th:if="not ${#strings.isEmpty(userRequest.profileFileName)}" ><img th:src="@{/profile(id=${userRequest.id})}"  /></p>
+                    <p th:if="not ${#strings.isEmpty(userRequest.profileFileName)}" ><a th:href="@{/profile/download(id=${userRequest.id})}">다운로드</a></p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <a th:href="@{./list(page=${page}, size=${size})}"><span th:text="#{List}"></span></a>
+        <a th:href="@{./modify(page=${page}, size=${size}, id=${userRequest.id})}"><span th:text="#{Edit}"></span></a>
+        <button id="btn-delete" th:text="#{Delete}"></button>
+    </div>
+
+    <form method="post" action="/admin/users/" id="deleteForm">
+        <input type="hidden" name="_method" value="delete" />
+        <input type="hidden" name="id" th:value="${userRequest.id}" />
+    </form>
+
+</body>
+</html>

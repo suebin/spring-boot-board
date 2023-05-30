@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{AddPost}"></title>
+    <link rel="stylesheet" href="static/style.css" />
+</head>
+<body>
+<h1 th:text="#{AddPost}"></h1>
+<form th:action="@{${action}}" method="post" th:object="${postRequest}">
+    <table>
+        <caption></caption>
+        <tbody>
+        <tr>
+            <th th:text="#{Title}"></th>
+            <td>
+                <p><input type="text" th:field="*{title}" /> </p>
+                <p th:each="item : ${#fields.errors('title')}" th:text="${item}" class="error-message" />
+            </td>
+        </tr>
+        <tr>
+            <th th:text="#{Content}"></th>
+            <td>
+                <p><input type="text" th:field="*{content}" /></p>
+                <p th:each="item : ${#fields.errors('content')}" th:text="${item}" class="error-message" />
+            </td>
+        </tr>
+        <tr>
+            <th th:text="#{Writer}"></th>
+            <td>
+                <p><input type="text" th:field="*{writerUserId}" th:placeholder="${user.id}"/></p>
+                <p th:each="item : ${#fields.errors('writerUserId')}" th:text="${item}" class="error-message" />
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p>
+        <button type="submit" th:text="#{Add}" ></button>
+        <a href="/board/" th:text="#{List}"></a>
+    </p>
+</form>
+
+</body>
+</html>

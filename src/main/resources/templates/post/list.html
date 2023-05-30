@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{Board}"></title>
+    <link rel="stylesheet" href="static/style.css"/>
+</head>
+<body>
+<header th:include="header/header::header"></header>
+<h1 th:text="#{Board}"></h1>
+<div>
+    <a href="/board/register" th:text="#{Add}"></a>
+</div>
+
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th th:text="#{ID}"></th>
+            <th th:text="#{Title}"></th>
+            <th th:text="#{Content}"></th>
+            <th th:text="#{Writer}"></th>
+            <th th:text="#{WriteTime}"></th>
+            <th th:text="#{ViewCount}"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each=" item, i : ${postPage.getContent}" >
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.title}"></td>
+            <td th:text="${item.content}"></td>
+            <td th:text="${item.writerUserId}"></td>
+            <td th:text="${item.writeTime}"></td>
+            <td th:text="${item.viewCount}"></td>
+            <td>
+                <a th:href="@{./view(page=${postPage.getNumber}, size=${postPage.getSize}, id=${item.id})}" th:text="#{View}"></a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div class="page">
+    <a th:href="@{./(page=${postPage.getNumber - 1} , size=${postPage.getSize}  )}" th:if="${postPage.getNumber gt 0 }" th:text="#{Prev}"></a>
+    <span th:text="${postPage.getNumber + 1}" />/<span th:text="${postPage.getTotalPages}"/>
+    <a th:href="@{./(page=${postPage.getNumber+1} , size=${postPage.getSize}  )}" th:if="${postPage.getNumber lt postPage.getTotalPages - 1}" th:text="#{Next}"></a>
+</div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>user list</title>
+    <link rel="stylesheet" href="/style.css"/>
+</head>
+<body>
+<button type="button" onclick="location.href=location.pathname + '?locale=ko'" th:text="#{Korean}"></button>
+<button type="button" onclick="location.href=location.pathname + '?locale=en' " th:text="#{English}"></button>
+<h1 th:text="#{UserList}"></h1>
+<div>
+    <a href="/admin/users/register" th:text="#{Add}"></a>
+</div>
+<table>
+    <caption></caption>
+    <thead>
+        <tr>
+            <th th:text="#{ID}"></th>
+            <th th:text="#{Name}"></th>
+            <th th:text="#{ViewUser}"></th>
+            <th th:text="#{CreatedAt}"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each=" item, i : ${userPage.getContent}" >
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.name}"></td>
+            <td>
+                <a th:href="@{./view(page=${userPage.getNumber}, size=${userPage.getSize}, id=${item.id})}"><span th:text="#{View}"></span></a>
+            </td>
+            <td th:text="${item.createdAt}"></td>
+        </tr>
+    </tbody>
+</table>
+<div class="page">
+    <a th:href="@{./(page=${userPage.getNumber - 1} , size=${userPage.getSize}  )}" th:if="${userPage.getNumber gt 0 }" th:text="#{Prev}"></a>
+    <span th:text="${userPage.getNumber+1}" />/<span th:text="${userPage.getTotalPages}"/>
+    <a th:href="@{./(page=${userPage.getNumber+1} , size=${userPage.getSize}  )}" th:if="${userPage.getNumber lt userPage.getTotalPages - 1}" th:text="#{Next}"></a>
+</div>
+</body>
+</html>

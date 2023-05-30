@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{ViewPost}"></title>
+    <link rel="stylesheet" href="static/style.css"/>
+    <script type="text/javascript">
+        window.addEventListener('DOMContentLoaded', function () {
+            'use strict';
+            const btnDelete = document.getElementById("btn-delete");
+
+            btnDelete.addEventListener('click', function () {
+                const ans = confirm("삭제하시겠습니까?");
+                if (ans) {
+                    const deleteForm = document.getElementById("deleteForm");
+                    deleteForm.submit();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<h1 th:text="#{ViewPost}"></h1>
+<table>
+    <caption></caption>
+    <colgroup>
+        <col style="width:150px;"/>
+        <col style="width:300px;"/>
+    </colgroup>
+    <tbody>
+    <tr>
+        <th scope="col" th:text="#{Title}"></th>
+        <td th:text="${postRequest.title}"></td>
+    </tr>
+    <tr>
+        <th scope="col" th:text="#{Writer}"></th>
+        <td th:text="${postRequest.writerUserId}"></td>
+    </tr>
+    <tr>
+        <th scope="col" th:text="#{WriteTime}"></th>
+        <td scope="col" th:text="${postRequest.writeTime}"></td>
+    </tr>
+    <tr>
+        <th th:text="#{ViewCount}"></th>
+        <td th:text="${postRequest.viewCount}"></td>
+    </tr>
+    <tr>
+        <th th:text="#{Content}"></th>
+        <td th:text="${postRequest.content}"></td>
+    </tr>
+    </tbody>
+</table>
+<div>
+    <a th:href="@{./list(page=${page}, size=${size})}" th:text="#{List}"></a>
+    <p th:if="${user.id} == ${postRequest.writerUserId}">
+        <a th:href="@{./modify(page=${page}, size=${size}, id=${postRequest.id})}" th:text="#{Edit}"></a>
+        <button id="btn-delete" th:text="#{Delete}"></button>
+    </p>
+
+</div>
+
+<form method="post" action="/board/" id="deleteForm">
+    <input type="hidden" name="_method" value="delete"/>
+    <input type="hidden" name="id" th:value="${postRequest.id}"/>
+</form>
+</body>
+</html>

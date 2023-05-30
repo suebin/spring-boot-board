@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{EditUser}"></title>
+    <link rel="stylesheet" href="static/style.css" />
+</head>
+<body>
+<h1 th:text="#{EditUser}"></h1>
+<form th:action="@{${action}}" method="post" th:object="${userRequest}"  enctype="multipart/form-data" >
+    <table>
+        <caption></caption>
+        <tbody>
+        <tr>
+            <th scope="col" th:text="#{ID}"></th>
+            <td>
+                <p><input type="text" th:field="*{id}" th:placeholder="${userRequest.id}"/></p>
+                <p th:each="item : ${#fields.errors('id')}" th:text="${item}" class="error-message" />
+            </td>
+        </tr>
+        <tr>
+            <th scope="col" th:text="#{Name}"></th>
+            <td>
+                <p><input type="text" th:field="*{name}" /> </p>
+                <p th:each="item : ${#fields.errors('name')}" th:text="${item}" class="error-message" />
+            </td>
+        </tr>
+        <tr>
+            <th scope="col" th:text="#{Password}"></th>
+            <td>
+                <p><input type="password" th:field="*{password}" /></p>
+                <p th:each="item : ${#fields.errors('password')}" th:text="${item}" class="error-message" />
+            </td>
+        </tr>
+        <tr>
+            <th scope="col" th:text="#{Profile}"></th>
+            <td>
+                <p><input type="file" name="profileFile" /></p>
+                <p>
+                    <img th:src="@{/profile(id=*{id})}" th:if="not *{#strings.isEmpty(profileFileName)}"  />
+                </p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p>
+        <button type="submit" th:text="#{Edit}" ></button>
+        <a href="/admin/users/"><span th:text="#{List}"></span></a>
+    </p>
+</form>
+
+</body>
+</html>
